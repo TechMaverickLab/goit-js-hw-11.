@@ -83,8 +83,8 @@ async function fetchImages (query, page = 1) {
       // Почати мигання кнопки "Додати ще", якщо вона ще не мигає
       if (!loadMoreBtn.style.animation) {
         // Початок мигання кнопки "Додати ще"
-        startBlinking(loadMoreBtn);
-        startBlinking(loadMoreBtn);
+        // startBlinking(loadMoreBtn);
+
       }
       buttonClicked = false; // Скидання стану кнопки після завантаження зображень
     }
@@ -151,7 +151,7 @@ loadMoreBtn.addEventListener('click', () => {
 loadMoreBtn.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' || event.keyCode === 13) {
     if (!buttonClicked) {
-      startBlinking(loadMoreBtn);
+      // startBlinking(loadMoreBtn);
     }
   }
 });
@@ -170,7 +170,7 @@ loadMoreBtn.addEventListener('mouseenter', () => {
 
 // Обробник подій для виходу курсора миші з кнопки "Додати ще"
 loadMoreBtn.addEventListener('mouseleave', () => {
-  startBlinking(loadMoreBtn);// Почати мигання знову
+  // startBlinking(loadMoreBtn);// Почати мигання знову
   loadMoreBtn.classList.remove('bounce'); // Видалення класу для анімації
 });
 
@@ -328,8 +328,9 @@ window.addEventListener('scroll', () => {
 
   if (nearBottom) {
     loadMoreBtn.style.display = 'block';
-    startBlinking(loadMoreBtn);
+    // startBlinking(loadMoreBtn);
     loadMoreBtn.focus();
+    loadMoreBtn.style.border = 'none';
   } else if (!isScrollingDown && window.scrollY < document.body.offsetHeight - 100) {
     loadMoreBtn.style.display = 'none';
     stopBlinking();

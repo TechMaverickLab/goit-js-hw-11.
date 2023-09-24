@@ -127,43 +127,28 @@ body {
 
 .load-more-btn {
   display: none;
-  background-image: url('/images/bottom.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  width: 50px;
-  height: 70px;
-  cursor: pointer;
   position: fixed;
   bottom: 40px;
+  right: 60px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+  padding: 0;
   left: 50%;
-  outline: none;
   transform-origin: center;
 }
 
+.load-more-btn img {
+  width: 80px;
+  height: 80px;
+}
 .spacer {
   height: 50px;
 }
 
 .half-opacity {
   opacity: 0.1;
-}
-
-@keyframes heartbeat {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(0.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.scroll-to-top-btn:hover,
-.scroll-to-top-btn:focus {
-  animation: heartbeat 1s infinite;
 }
 
 @keyframes spinOut {
@@ -251,11 +236,13 @@ body {
 }
 
 #loadMoreBtn:hover {
-  animation: bounce 2s infinite;
+  animation: heartbeat 1s infinite;
 }
 
 #loadMoreBtn {
   transform-origin: center;
+  border: none;
+  position: relative;
 }
 
 #loadMoreBtn.spinFast {
@@ -266,8 +253,8 @@ body {
   animation: spinBackAndFlyOut 3s 0.5s forwards; /* Затримка 1 секунда перед початком анімації */
 }
 
-#loadMoreBtn {
-  position: relative;
+#loadMoreBtn.focus {
+  border: none;
 }
 
 #loadMoreBtn::before {
