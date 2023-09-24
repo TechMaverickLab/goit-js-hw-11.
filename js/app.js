@@ -18,7 +18,6 @@ let buttonClicked = false;
 let isScrollingDown = true;
 let isAnimating = false;
 let animationRequestID = null;// Змінна для ID запиту анімації
-let blinkInterval;// Змінна, яка відстежує інтервал мигання елемента
 let isScrollingToTop = false; // Змінна, яка вказує, чи прокручується сторінка до верху
 
 // Отримання елементів DOM
@@ -69,8 +68,6 @@ async function fetchImages (query, page = 1) {
         'Sorry, there are no images matching your search query. Please try again.',
       );
       loadMoreBtn.style.display = 'none'; // Приховати кнопку "Додати ще"
-      stopBlinking(); // Зупинити мигання кнопки
-      loadMoreBtn.classList.remove('blinking'); // Видалити клас мигання з кнопки
     } else {
       // Якщо зображення знайдено, відобразити їх
       renderImages(images);
@@ -80,17 +77,11 @@ async function fetchImages (query, page = 1) {
                        + ` Total loaded: ${currentPage * 40}`;
       Notiflix.Notify.success(successMessage);
 
-      // Почати мигання кнопки "Додати ще", якщо вона ще не мигає
-      if (!loadMoreBtn.style.animation) {
-        // Початок мигання кнопки "Додати ще"
-        // startBlinking(loadMoreBtn);
-
-      }
       buttonClicked = false; // Скидання стану кнопки після завантаження зображень
     }
   } catch (error) {
     // Обробка помилок запиту
-    console.error('Error fetching images:', error);
+    // console.error('Error fetching images:', error);
   }
 }
 
@@ -126,8 +117,6 @@ function renderImages (images) {
 
 // Обробник подій для кліку по кнопці "Додати ще"
 loadMoreBtn.addEventListener('click', () => {
-  // Зупинити мигання
-  stopBlinking();
   // Зробити кнопку повністю видимою
   loadMoreBtn.style.opacity = 1;
   // Додати анімацію швидкого обертання
@@ -147,22 +136,12 @@ loadMoreBtn.addEventListener('click', () => {
   }, 3500); // Чекаємо, поки анімація завершиться
 });
 
-// Обробник подій для клавіші Enter на кнопці "Додати ще"
-loadMoreBtn.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' || event.keyCode === 13) {
-    if (!buttonClicked) {
-      // startBlinking(loadMoreBtn);
-    }
-  }
-});
-
 // ============================================================================================================
 //                                  КНОПКА ДОЗАВАНТАЖЕННЯ
 // ============================================================================================================
 
 // Обробник подій для наведення курсора миші на кнопку "Додати ще"
 loadMoreBtn.addEventListener('mouseenter', () => {
-  stopBlinking();// Зупинити мигання
   loadMoreBtn.style.opacity = 1;// Зробити кнопку повністю видимою
   // Додати анімацію "bounce"
   loadMoreBtn.classList.add('bounce');
@@ -170,24 +149,8 @@ loadMoreBtn.addEventListener('mouseenter', () => {
 
 // Обробник подій для виходу курсора миші з кнопки "Додати ще"
 loadMoreBtn.addEventListener('mouseleave', () => {
-  // startBlinking(loadMoreBtn);// Почати мигання знову
   loadMoreBtn.classList.remove('bounce'); // Видалення класу для анімації
 });
-
-// Функція для початку мигання елемента
-function startBlinking (element) {
-  stopBlinking(); // Зупинка попередньої анімації мигання
-  let opacity = 1;
-  blinkInterval = setInterval(() => {
-    opacity = (opacity === 1) ? 0 : 1;
-    element.style.opacity = opacity;
-  }, 500);
-}
-
-// Функція для зупинки мигання елемента
-function stopBlinking () {
-  clearInterval(blinkInterval);
-}
 
 // ============================================================================================================
 //                                  КНОПКА ПОВЕРНЕННЯ ДО ГОРИ
@@ -328,13 +291,11 @@ window.addEventListener('scroll', () => {
 
   if (nearBottom) {
     loadMoreBtn.style.display = 'block';
-    // startBlinking(loadMoreBtn);
+
     loadMoreBtn.focus();
     loadMoreBtn.style.border = 'none';
   } else if (!isScrollingDown && window.scrollY < document.body.offsetHeight - 100) {
     loadMoreBtn.style.display = 'none';
-    stopBlinking();
-    loadMoreBtn.classList.remove('blinking');
   }
 
   // Перевірка, чи кнопка "Додати ще" перекриває останнє зображення в галереї
