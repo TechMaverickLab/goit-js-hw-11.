@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */ /* eslint-disable no-console */ /* global axios, Notiflix, SimpleLightbox */ const API_KEY = "39484485-dccfbf14586dc449f78b39dc0";
+/* eslint-disable no-console */ /* global axios, Notiflix, SimpleLightbox */ const API_KEY = "39484485-dccfbf14586dc449f78b39dc0";
 const BASE_URL = "https://pixabay.com/api/";
 const IMAGE_TYPE = "photo";
 const ORIENTATION = "horizontal";
