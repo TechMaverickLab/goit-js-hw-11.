@@ -1,0 +1,29 @@
+{
+  "name": "goit-js-hw-11.",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html --public-url ./ --dist-dir dist",
+    "deploy": "gh-pages -d dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "goit-js-hw-11."
+  ],
+  "author": "Ruslan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rlypovskyi/goit-js-hw-11./issues"
+  },
+  "homepage": "https://github.com/rlypovskyi/goit-js-hw-11.#readme",
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "parcel": "^2.10.1"
+  },
+  "dependencies": {
+    "axios": "^1.5.1",
+    "flatpickr": "^4.6.13",
+    "notiflix": "^3.2.6"
+  }
+}
