@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+
 
 /* global axios, Notiflix, SimpleLightbox */
 
@@ -71,7 +71,9 @@ async function fetchImages (query, page = 1) {
       buttonClicked = false;
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error fetching images:', error);
+
     Notiflix.Notify.failure('Something went wrong. Please try again later.');
   }
 }
