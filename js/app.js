@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 
 /* global axios, Notiflix, SimpleLightbox */
@@ -22,7 +21,9 @@ let lastScrollPosition = 0;
 let isScrollingDown = true;
 let isAnimating = false;
 let animationRequestID = null;
+// eslint-disable-next-line no-unused-vars
 let isScrollingToTop = false;
+// eslint-disable-next-line no-unused-vars
 let buttonClicked = false;
 
 searchIconElement.addEventListener('click', () => {
@@ -91,6 +92,7 @@ function renderImages (images) {
   `).join('');
 
   galleryElement.insertAdjacentHTML('beforeend', imageMarkup);
+  // eslint-disable-next-line no-unused-vars
   const lightbox = new SimpleLightbox('.photo-card a', {});
 }
 
