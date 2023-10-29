@@ -52,7 +52,7 @@ async function fetchImages (query, page = 1) {
   const fullUrl = `${BASE_URL}?${queryParams.toString()}`;
 
   try {
-    const response = await window.axios.get(fullUrl);
+    const response = await axios.get(fullUrl);
     const images = response.data.hits;
     const { totalHits } = response.data;
 
