@@ -1,4 +1,4 @@
-
+import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 
 const API_KEY = '39484485-dccfbf14586dc449f78b39dc0';
