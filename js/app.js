@@ -1,6 +1,6 @@
-
-
-/* global axios, Notiflix, SimpleLightbox */
+import axios from 'axios';
+import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
 
 const API_KEY = '39484485-dccfbf14586dc449f78b39dc0';
 const BASE_URL = 'https://pixabay.com/api/';

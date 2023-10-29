@@ -20,5 +20,9 @@
         "space-before-blocks": ["error", "always"],
         "space-before-function-paren": ["error", "always"],
         "quotes": ["error", "single"] // Додано це правило
-    }
+    },
+    "plugins": [
+        "import"
+      ]
+      
 }
