@@ -1,5 +1,4 @@
-import axios from 'axios';
-import Notiflix from 'notiflix';
+
 import SimpleLightbox from 'simplelightbox';
 
 const API_KEY = '39484485-dccfbf14586dc449f78b39dc0';
@@ -53,7 +52,7 @@ async function fetchImages (query, page = 1) {
   const fullUrl = `${BASE_URL}?${queryParams.toString()}`;
 
   try {
-    const response = await axios.get(fullUrl);
+    const response = await window.axios.get(fullUrl);
     const images = response.data.hits;
     const { totalHits } = response.data;
 
