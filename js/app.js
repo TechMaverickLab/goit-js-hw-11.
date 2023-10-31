@@ -1,5 +1,7 @@
-import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
+
+/* global axios, Notiflix, SimpleLightbox */
 
 const API_KEY = '39484485-dccfbf14586dc449f78b39dc0';
 const BASE_URL = 'https://pixabay.com/api/';
@@ -20,9 +22,7 @@ let lastScrollPosition = 0;
 let isScrollingDown = true;
 let isAnimating = false;
 let animationRequestID = null;
-// eslint-disable-next-line no-unused-vars
 let isScrollingToTop = false;
-// eslint-disable-next-line no-unused-vars
 let buttonClicked = false;
 
 searchIconElement.addEventListener('click', () => {
@@ -70,9 +70,7 @@ async function fetchImages (query, page = 1) {
       buttonClicked = false;
     }
   } catch (error) {
-    // eslint-disable-next-line no-console
     console.error('Error fetching images:', error);
-
     Notiflix.Notify.failure('Something went wrong. Please try again later.');
   }
 }
@@ -93,7 +91,6 @@ function renderImages (images) {
   `).join('');
 
   galleryElement.insertAdjacentHTML('beforeend', imageMarkup);
-  // eslint-disable-next-line no-unused-vars
   const lightbox = new SimpleLightbox('.photo-card a', {});
 }
 
