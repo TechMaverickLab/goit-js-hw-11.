@@ -3,6 +3,9 @@
 
 /* global axios, Notiflix, SimpleLightbox */
 
+// eslint-disable-next-line import/extensions
+import fetchImages from './apiService.js';
+
 const API_KEY = '39484485-dccfbf14586dc449f78b39dc0';
 const BASE_URL = 'https://pixabay.com/api/';
 const IMAGE_TYPE = 'photo';
@@ -24,54 +27,50 @@ let isAnimating = false;
 let animationRequestID = null;
 let isScrollingToTop = false;
 let buttonClicked = false;
+let totalImages = 0;
 
-searchIconElement.addEventListener('click', () => {
+searchIconElement.addEventListener('click', async () => {
   galleryElement.innerHTML = '';
   currentQuery = searchFormElement.elements.searchQuery.value;
-  fetchImages(currentQuery);
+  try {
+    const data = await fetchImages(currentQuery);
+    handleResponse(data);
+  } catch (error) {
+    Notiflix.Notify.failure('Something went wrong. Please try again later.');
+  }
 });
 
-searchFormElement.addEventListener('submit', (event) => {
+searchFormElement.addEventListener('submit', async (event) => {
   event.preventDefault();
   galleryElement.innerHTML = '';
   currentQuery = event.currentTarget.elements.searchQuery.value;
-  fetchImages(currentQuery);
+  try {
+    const data = await fetchImages(currentQuery);
+    handleResponse(data);
+  } catch (error) {
+    Notiflix.Notify.failure('Something went wrong. Please try again later.');
+  }
 });
 
-async function fetchImages (query, page = 1) {
-  const queryParams = new URLSearchParams({
-    key: API_KEY,
-    q: query,
-    image_type: IMAGE_TYPE,
-    orientation: ORIENTATION,
-    safesearch: SAFESEARCH,
-    per_page: PER_PAGE.toString(),
-    page: page.toString(),
-  });
+function handleResponse (data) {
+  const images = data.hits;
+  const { totalHits } = data;
 
-  const fullUrl = `${BASE_URL}?${queryParams.toString()}`;
+  totalImages = totalHits;
 
-  try {
-    const response = await axios.get(fullUrl);
-    const images = response.data.hits;
-    const { totalHits } = response.data;
+  if (images.length === 0) {
+    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+    loadMoreButtonElement.style.display = 'none';
+  } else {
+    renderImages(images);
+    currentPage = 1;
+    const successMessage = `Hooray! We found ${totalHits} images. `
+      + `Loaded ${images.length} more. `
+      + `Total loaded: ${currentPage * PER_PAGE}`;
 
-    if (images.length === 0) {
-      Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-      loadMoreButtonElement.style.display = 'none';
-    } else {
-      renderImages(images);
-      currentPage = page;
-      const successMessage = `Hooray! We found ${totalHits} images. `
-  + `Loaded ${images.length} more. `
-  + `Total loaded: ${currentPage * PER_PAGE}`;
-
-      Notiflix.Notify.success(successMessage);
-      buttonClicked = false;
-    }
-  } catch (error) {
-    console.error('Error fetching images:', error);
-    Notiflix.Notify.failure('Something went wrong. Please try again later.');
+    Notiflix.Notify.success(successMessage);
+    buttonClicked = false;
+    loadMoreButtonElement.style.display = images.length < PER_PAGE ? 'none' : 'block';
   }
 }
 
@@ -94,7 +93,7 @@ function renderImages (images) {
   const lightbox = new SimpleLightbox('.photo-card a', {});
 }
 
-loadMoreButtonElement.addEventListener('click', () => {
+loadMoreButtonElement.addEventListener('click', async () => {
   loadMoreButtonElement.style.opacity = '1';
 
   loadMoreButtonElement.classList.add('spinFast');
@@ -104,8 +103,26 @@ loadMoreButtonElement.addEventListener('click', () => {
     loadMoreButtonElement.classList.add('spinBackAndFly');
   }, 500);
 
+  try {
+    const data = await fetchImages(currentQuery, currentPage + 1);
+    const images = data.hits;
+    if (images.length > 0) {
+      renderImages(images);
+      currentPage += 1;
+      const successMessage = `Hooray! We found ${totalImages} images. `
+        + `Loaded ${images.length} more. `
+        + `Total loaded: ${currentPage * PER_PAGE}`;
+      Notiflix.Notify.success(successMessage);
+    }
+    if (images.length < PER_PAGE) {
+      loadMoreButtonElement.style.display = 'none';
+    }
+  } catch (error) {
+    console.error('Error fetching images:', error);
+    Notiflix.Notify.failure('Something went wrong. Please try again later.');
+  }
+
   setTimeout(() => {
-    fetchImages(currentQuery, currentPage + 1);
     loadMoreButtonElement.classList.remove('spinBackAndFly');
   }, 3500);
 });
