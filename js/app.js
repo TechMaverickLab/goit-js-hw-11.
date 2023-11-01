@@ -30,6 +30,7 @@ let buttonClicked = false;
 let totalImages = 0;
 
 searchIconElement.addEventListener('click', async () => {
+  resetLoadMoreButton();
   galleryElement.innerHTML = '';
   currentQuery = searchFormElement.elements.searchQuery.value;
   try {
@@ -42,6 +43,7 @@ searchIconElement.addEventListener('click', async () => {
 
 searchFormElement.addEventListener('submit', async (event) => {
   event.preventDefault();
+  resetLoadMoreButton();
   galleryElement.innerHTML = '';
   currentQuery = event.currentTarget.elements.searchQuery.value;
   try {
@@ -72,6 +74,8 @@ function handleResponse (data) {
     buttonClicked = false;
     loadMoreButtonElement.style.display = images.length < PER_PAGE ? 'none' : 'block';
   }
+
+  loadMoreButtonElement.style.display = images.length < PER_PAGE ? 'none' : 'block';
 }
 
 function renderImages (images) {
@@ -114,8 +118,8 @@ loadMoreButtonElement.addEventListener('click', async () => {
         + `Total loaded: ${currentPage * PER_PAGE}`;
       Notiflix.Notify.success(successMessage);
     }
-    if (images.length < PER_PAGE) {
-      loadMoreButtonElement.style.display = 'none';
+    if (images.length < PER_PAGE || (currentPage * PER_PAGE) >= totalImages) {
+      hideLoadMoreButton();
     }
   } catch (error) {
     console.error('Error fetching images:', error);
@@ -145,6 +149,17 @@ scrollToTopButtonElement.addEventListener('click', () => {
     scrollToTopButtonElement.classList.remove('flyOut');
   }, 2000);
 });
+
+function hideLoadMoreButton () {
+  loadMoreButtonElement.classList.add('fadeOut');
+  setTimeout(() => {
+    loadMoreButtonElement.classList.add('hidden');
+  }, 500);
+}
+
+function resetLoadMoreButton () {
+  loadMoreButtonElement.classList.remove('hidden', 'fadeOut');
+}
 
 function smoothScrollToTop (duration) {
   const targetPosition = 0;

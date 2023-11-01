@@ -58,6 +58,12 @@ body {
   display: none;
 }
 
+.hidden {
+  display: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -138,6 +144,7 @@ body {
 }
 
 .load-more-btn {
+  display: none;
   bottom: 80px;
   left: 50%;
   position: relative;
@@ -274,4 +281,17 @@ body {
   100% {
     transform: scale(1);
   }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 0.5s forwards;
 }
